@@ -9,7 +9,8 @@ sudo docker swarm init
 
 sudo docker stack deploy -c bootcamp_mon/docker-compose.yml monitoring
 ```
-2. Добавьте prometheus как источник данных по адресу `http://prometheus:9090` для grafana.
+2. Добавьте Prometheus как источник данных по адресу `http://prometheus:9090` для grafana.
+
 3. Добавьте новый источник метрик для prometheus, добавив в файл `/var/lib/docker/volumes/monitoring_prom-configs/_data/prometheus.yml` дополнительные параметры` scrape_configs:`:
 
 ```
@@ -19,13 +20,13 @@ sudo docker stack deploy -c bootcamp_mon/docker-compose.yml monitoring
       - targets: ['node-exporter:9100']
 ```
 
-4. Перезапустите prometheus командой:
+4. Перезапустите Prometheus командой:
 
 ```
 sudo docker ps | grep prometheus | awk '{print $1}' | xargs docker kill -s SIGHUP
 ```
 
-5. Импортируйте новый дашборд для grafana по ссылке: https://grafana.com/grafana/dashboards/1860.
+5. Импортируйте новый дашборд для Grafana по ссылке: https://grafana.com/grafana/dashboards/1860.
 
 6. Добавьте репозиторий в диспетчер пакетов:
 
@@ -41,7 +42,7 @@ EOF
 sudo curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
 
 ```
-Установите TELEGRAF:
+Установите Telegraf:
 
 ```
 sudo apt update
@@ -68,11 +69,10 @@ sudo systemctl status telegraf
 
 ```
 scrape_configs:
-- job_name: "telegraf"
-  static_configs:
-  - targets:
-    - "172.17.0.1:9273"
-    
+  - job_name: 'telegraf'
+
+    static_configs:
+      - targets: ['172.17.0.1:9273']
 ```
 
 9. Перезапустите Prometheus командой:
